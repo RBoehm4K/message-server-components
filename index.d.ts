@@ -109,12 +109,14 @@ declare class TemplateEditor extends BaseComponent {
     readonly onSave: _angular_core.OutputEmitterRef<SaveEvent>;
     readonly onReset: _angular_core.OutputEmitterRef<void | Event>;
     readonly onDelete: _angular_core.OutputEmitterRef<void | Event>;
+    readonly loading: _angular_core.ModelSignal<boolean>;
+    private get _loading();
     reset($event: Event, emitEvent?: boolean): void;
     save($event: Event): void;
     private prepareSave;
     delete($event: Event): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TemplateEditor, never>;
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<TemplateEditor, "ng-component", never, { "data": { "alias": "data"; "required": false; "isSignal": true; }; "options": { "alias": "options"; "required": false; "isSignal": true; }; }, { "data": "dataChange"; "onSave": "save"; "onReset": "reset"; "onDelete": "delete"; }, never, never, true, never>;
+    static ɵcmp: _angular_core.ɵɵComponentDeclaration<TemplateEditor, "ng-component", never, { "data": { "alias": "data"; "required": false; "isSignal": true; }; "options": { "alias": "options"; "required": false; "isSignal": true; }; "loading": { "alias": "loading"; "required": false; "isSignal": true; }; }, { "data": "dataChange"; "onSave": "save"; "onReset": "reset"; "onDelete": "delete"; "loading": "loadingChange"; }, never, never, true, never>;
 }
 
 declare class TemplateList extends BaseComponent {
@@ -124,8 +126,8 @@ declare class TemplateList extends BaseComponent {
     readonly filteredData: _angular_core.Signal<TemplateData[]>;
     readonly onEdit: _angular_core.OutputEmitterRef<TemplateData>;
     protected edit(template: TemplateData): void;
-    readonly qualitySeverity: (template: TemplateData) => "success" | "warning" | "error" | "secondary";
-    readonly statusSeverity: (template: TemplateData) => "success" | "warning" | "secondary" | "danger" | "info";
+    readonly qualitySeverity: (template: TemplateData) => "warning" | "error" | "success" | "secondary";
+    readonly statusSeverity: (template: TemplateData) => "info" | "warning" | "success" | "secondary" | "danger";
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TemplateList, never>;
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<TemplateList, "ng-component", never, { "data": { "alias": "data"; "required": false; "isSignal": true; }; }, { "onEdit": "edit"; }, never, never, true, never>;
 }
