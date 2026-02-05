@@ -124,8 +124,8 @@ declare class TemplateList extends BaseComponent {
     readonly filteredData: _angular_core.Signal<TemplateData[]>;
     readonly onEdit: _angular_core.OutputEmitterRef<TemplateData>;
     protected edit(template: TemplateData): void;
-    readonly qualitySeverity: (template: TemplateData) => "warning" | "error" | "success" | "secondary";
-    readonly statusSeverity: (template: TemplateData) => "info" | "warning" | "success" | "secondary" | "danger";
+    readonly qualitySeverity: (template: TemplateData) => "success" | "warning" | "error" | "secondary";
+    readonly statusSeverity: (template: TemplateData) => "success" | "warning" | "secondary" | "danger" | "info";
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TemplateList, never>;
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<TemplateList, "ng-component", never, { "data": { "alias": "data"; "required": false; "isSignal": true; }; }, { "onEdit": "edit"; }, never, never, true, never>;
 }

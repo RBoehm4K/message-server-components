@@ -606,6 +606,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.16", ngImpo
         </svg>`, imports: [CommonModule], styles: [":host{width:1em;height:1em;display:inline-block;vertical-align:middle}\n"] }]
         }] });
 
+// TODO: add pause template 
 class TemplateList extends BaseComponent {
     static selector = 'vierkant-template-list';
     filter = signal('', ...(ngDevMode ? [{ debugName: "filter" }] : []));
