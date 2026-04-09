@@ -435,14 +435,24 @@ class FacebookLogin extends BaseComponent {
         }
         this.injectFB_SDK();
         if (this.FB_SDK && 'login' in this.FB_SDK) {
-            this.FB_SDK.logout(() => {
+            try {
+                this.FB_SDK.logout(() => {
+                    this.FB_SDK.login((response) => this.facebookLoginAuthCode.set(response.authResponse?.code), {
+                        config_id: this.CONFIG_ID(),
+                        response_type: 'code',
+                        override_default_response_type: true,
+                        extras: { "version": "v3", }
+                    });
+                });
+            }
+            catch (error) {
                 this.FB_SDK.login((response) => this.facebookLoginAuthCode.set(response.authResponse?.code), {
                     config_id: this.CONFIG_ID(),
                     response_type: 'code',
                     override_default_response_type: true,
                     extras: { "version": "v3", }
                 });
-            });
+            }
         }
         else {
             this.window.fbAsyncInit = () => {
@@ -701,7 +711,16 @@ class ConfirmationService {
                 // Position below the element
                 domElem.style.top = `${rect.bottom + window.scrollY}px`;
             }
-            domElem.style.left = `${rect.left + window.scrollX}px`;
+            // Adjust horizontal position based on available space
+            let left = rect.left + window.scrollX;
+            const spaceRight = window.innerWidth - (rect.left + domRect.width);
+            if (spaceRight < 0) {
+                // Not enough space on the right, position from the right side
+                left = rect.right - domRect.width + window.scrollX;
+            }
+            // Ensure the element doesn't overflow the left edge
+            left = Math.max(0, left);
+            domElem.style.left = `${left}px`;
         }
         this.eventRefs.push(this.confirmationRef.instance.onCancel.subscribe(() => {
             if (onCancel) {
