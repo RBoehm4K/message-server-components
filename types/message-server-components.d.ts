@@ -1,6 +1,7 @@
 import * as _angular_core from '@angular/core';
-import { Type } from '@angular/core';
+import { Type, OnChanges, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ValidationErrors, Validator, AbstractControl } from '@angular/forms';
 
 interface ComponentWithSelector extends Type<BaseComponent> {
     selector: string;
@@ -126,8 +127,8 @@ declare class TemplateList extends BaseComponent {
     readonly filteredData: _angular_core.Signal<TemplateData[]>;
     readonly onEdit: _angular_core.OutputEmitterRef<TemplateData>;
     protected edit(template: TemplateData): void;
-    readonly qualitySeverity: (template: TemplateData) => "warning" | "error" | "success" | "secondary";
-    readonly statusSeverity: (template: TemplateData) => "info" | "warning" | "success" | "secondary" | "danger";
+    readonly qualitySeverity: (template: TemplateData) => "success" | "warning" | "error" | "secondary";
+    readonly statusSeverity: (template: TemplateData) => "success" | "warning" | "secondary" | "danger" | "info";
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TemplateList, never>;
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<TemplateList, "ng-component", never, { "data": { "alias": "data"; "required": false; "isSignal": true; }; }, { "onEdit": "edit"; }, never, never, true, never>;
 }
@@ -164,7 +165,21 @@ declare class FacebookLogin extends BaseComponent {
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<FacebookLogin, "ng-component", never, { "APP_ID": { "alias": "APP_ID"; "required": true; "isSignal": true; }; "CONFIG_ID": { "alias": "CONFIG_ID"; "required": true; "isSignal": true; }; "URL": { "alias": "URL"; "required": false; "isSignal": true; }; "PROVIDED_API_KEY": { "alias": "API_KEY"; "required": false; "isSignal": true; }; }, { "onSuccess": "success"; "onError": "error"; }, never, never, true, never>;
 }
 
+type ValidateFn<T = string> = (value: T) => boolean | ValidationErrors;
+declare class ValidationDirective implements Validator, OnChanges {
+    validateFn: ValidateFn | null;
+    private onChange;
+    ngOnChanges(changes: SimpleChanges): void;
+    validate(control: AbstractControl): ValidationErrors | null;
+    registerOnValidatorChange(fn: () => void): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ValidationDirective, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ValidationDirective, "[validate]", never, { "validateFn": { "alias": "validate"; "required": false; }; }, {}, never, never, true, never>;
+}
+interface IValidate {
+    validate: ValidateFn;
+}
+
 declare function setup(): void;
 
-export { BaseComponent, FacebookLogin, TemplateEditor, TemplateList, setup };
-export type { ComponentWithSelector, Option, TemplateData };
+export { BaseComponent, FacebookLogin, TemplateEditor, TemplateList, ValidationDirective, setup };
+export type { ComponentWithSelector, IValidate, Option, TemplateData, ValidateFn };
