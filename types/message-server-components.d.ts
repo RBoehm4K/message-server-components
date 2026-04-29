@@ -77,7 +77,7 @@ interface TemplateButtonCopyCode {
 interface TemplateButtonUrl {
     type: Extract<ButtonType, "URL">;
     url: string;
-    example?: string;
+    text?: string;
 }
 interface TemplateButtonPhoneNumber {
     type: Extract<ButtonType, "PHONE_NUMBER">;
