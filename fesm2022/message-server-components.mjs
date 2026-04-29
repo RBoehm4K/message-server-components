@@ -1379,7 +1379,7 @@ class FooterPart {
             if (x.type === 'QUICK_REPLY')
                 return x.text?.trim().length === 0;
             if (x.type === 'URL')
-                return x.example?.trim().length === 0 || x.url?.trim().length === 0;
+                return x.example?.length === 0 || x.url?.trim().length === 0;
             if (x.type === 'PHONE_NUMBER')
                 return x.text?.trim().length === 0 || x.phone_number?.trim().length === 0;
             if (x.type === 'COPY_CODE')
