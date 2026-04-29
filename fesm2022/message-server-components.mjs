@@ -1026,6 +1026,18 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.9", ngImpor
                 args: ['validate']
             }] } });
 
+function validateName(input) {
+    if (!input || typeof input !== 'string')
+        return { validation: 'invalid_input' };
+    const value = input.toLowerCase().replace(/[^a-z\-\_]/g, '');
+    if (value.length === 0)
+        return { validation: 'required' };
+    if (value.startsWith('-') || value.startsWith('_') || value.endsWith('-') || value.endsWith('_')) {
+        return { validation: 'invalid_format' };
+    }
+    return true;
+}
+
 class HeaderPart {
     confirmationService = inject(ConfirmationService);
     data = input.required(...(ngDevMode ? [{ debugName: "data" }] : /* istanbul ignore next */ []));
@@ -1096,17 +1108,7 @@ class HeaderPart {
             }
         });
     }
-    validate(input) {
-        if (!input || typeof input !== 'string')
-            return { validation: 'invalid_input' };
-        const value = input.toLowerCase().replace(/[^a-z\-\_]/g, '');
-        if (value.length === 0)
-            return { validation: 'required' };
-        if (value.startsWith('-') || value.startsWith('_') || value.endsWith('-') || value.endsWith('_')) {
-            return { validation: 'invalid_format' };
-        }
-        return true;
-    }
+    validate = validateName;
     sanitizeName(input, el) {
         if (!input || typeof input !== 'string')
             return '';
@@ -1369,7 +1371,7 @@ class FooterPart {
         const { body, buttons } = this.data().components;
         if (!body || body.text == null || body.text.trim() === '')
             return true;
-        if (this.data().name == null || this.data().name.trim() === '')
+        if (!this.data().name?.trim().length || validateName(this.data().name) !== true)
             return true;
         if ((buttons?.buttons ?? []).length > 10)
             return true;
